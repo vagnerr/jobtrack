@@ -1,0 +1,890 @@
+
+
+Variables Read/Set By PHP Scripts
+=================================
+
+-----------------------------------------------------------------------------
+
+activejobs.php
+--------------
+Description:	Display list of all the currently active jobs
+Template(s):	activejobs.tpl
+
+Inputs: none
+
+Outputs:
+	PageTitle	Page Title
+	hide_Status	Set to hide the status column of the job table
+	(more set in process_job_list)
+
+-----------------------------------------------------------------------------
+
+adddata.php
+-----------
+Description:	Handles adding of data to a job
+Template(s):	adddata.tpl / calls jobdetail.php
+
+Inputs:
+	JobID	ID of the Job we are adding data to
+	action	if set to "upload" then we do otherwise upload form is
+		displayed
+	ID		ID of job to upload data for also sets the ID
+			for when adddata.php calls jobdetail.php after
+			upload (hidden)
+	Description	Description to store with the data for display
+			on the jobdetail page
+	JobDataType_ID	ID of type of data (for text/email/image etc)
+	FileName	Filename to upload (input type="file")
+	Data		cut-n-paste alternative to file upload
+
+
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+	ID			ID of job getting new data
+	PageTitle			Page Title
+	(more set if/when it calls jobdetail.php)
+OutputLoops:
+	JobDataTypeList		list of possible job data types filled from
+				JOBDATATYPE_CONST table
+		ID		ID of type
+		Keyword		keyword
+		Description	Human description
+-----------------------------------------------------------------------------
+
+addnote.php
+-----------
+Description:	Code to add a new note to a job
+Template(s):	none, calls jobdetail.php when complete
+
+Inputs:
+	ID		Job ID we are adding notes to
+	Data		Content of actual note to be added
+	AddDate		date (and time) note added (yyyy-mm-dd hh:mm:ss)
+			if left blank php script will add as current time
+	Agent_ID	ID of agent to add
+	NewAgentName	new agent name (will be added to AGENT table if new)
+			only used if Agent_ID above is set to -1
+	NextCheck	number of days to next check *from now*, -1 for
+			never
+	NextAction_ID	ID of next intended action
+	Status_ID	ID to set the status of the job to on submision
+			of note
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+	(rest added in jobdetail.php)
+-----------------------------------------------------------------------------
+
+add.php
+-------
+Description:	code adds a new job to the database
+Template(s):	add.tpl or calls jobdetail.php
+
+Inputs:
+	submit		if submit is set then new job added otherwise
+			the form is displayed
+	Fake		Fake status of job application, 0 or 1  (JOB.Fake)
+	DateAdded	Date application added to the DB (JOB.DateAdded)
+	DateToCheck	Date of nect job check (JOB.DateToCheck)
+	NextAction_ID	ID for next action (JOB.NextAction_ID)
+	DateOfInterview	date of interview (JOB.DateOfInterview)
+	Status_ID	Status ID of job (JOB.Status_ID)
+	Type_ID		Type ID of job (JOB.Type_ID)
+	Salary		Salary offered for job
+	Source_ID	Source ID of job (JOB.Source_ID)
+	NewSource	New source name (used if Source_ID set to -1)
+	JobTitle	Title of job (JOB.JobTitle)
+	NewCompany	Name of company (COMPANY.Name linked to JOB.Company_ID)
+	Location_ID	Location ID of job (JOB.Location_ID)
+	NewLocation	New location (used if Location_ID set to -1)
+	Reference	Reference of job (JOB.Reference)
+	Agency_ID	ID of agency (JOB.Agency_ID)
+	NewAgency	New agency name (used if Agency = -1)
+	
+OutputVars:
+	PageTitle	Page Title
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+OutputLoops:
+	NextActionList	list of all the "next action" options from
+			NEXTACTION_CONST table (built directly from table
+		ID		Computer ID to be assigned in form
+		Keyword		Computer Keyword (not being used by code)
+		Description	Human Name of Action
+	StatusList	list of all the possible statuses built directly
+			from the STATUS_CONST table
+		ID		ID to be assigned
+		Keyword
+		Description	Human name
+	TypeList	list of types built from TYPE_CONST table
+		ID		ID to be assigned
+		Keyword
+		Description	Human name
+	SourceList	list of available sources
+		ID		ID to be assigned
+		Description	Human name
+	LocationList	list of available locations
+		ID		ID to be assigned
+		Value		human name
+	AgencyList	list of the available agencies
+		ID		ID to be assigned
+		Name		Human name
+
+
+
+
+-----------------------------------------------------------------------------
+
+agencies.php
+------------
+Description:	displays list of agencies in database.
+Template(s):	agencies.tpl
+
+OutputVars:
+	PageTitle	Page Title
+
+OutputLoops:
+	AgencyList	list of agencies
+		ID		ID of agency
+		Name		Name of agency
+		AgentCount	Count of agents in agency
+		JobCount	Count of jobs with agency
+-----------------------------------------------------------------------------
+
+agencydetail.php
+----------------
+Description:	Shows the "Details" for a particular Agency
+Template(s):	agencydetail.tpl
+			jobtable.tpl
+Inputs:
+	ID	ID of agency
+OutputVars:
+	PageTitle	Title of Page
+	ID		ID of agency
+	ID_FIELD	IF of agency for link ->  ID=<ID>&
+	hide_Agency	set to 1 to hide the agency column from job table
+	Name		Name of agency
+	(more set in process_job_list)
+OutputLoops:
+	AgentList	list of agents at the agency
+		ID		ID of the Agent
+		Name		Name of the agent
+		ContactList	list of contacts for specific agent
+			Description	Description of type (Email/Phone etc)
+			Keyword		keyword of type (EMAIL/URL etc)
+			Data		contact data itself
+	AgencyContactList	list of contacts for the agency built from
+				the AGENCYCONTACT_LNK table from all the
+				contacts for this agency
+		ID		ID of specific contact
+		Description	Human readable description of contact type
+		Data		Value of specific contact
+		ContactType_ID	Contact Type ID for current contact
+		Keyword		keyword of contact (EMAIL/URL etc)
+
+	ContactTypeList		list of contact types built from
+				CONTACTTYPE_CONST table
+		ID		ID of type
+		Keyword		keyword
+		Description	Human description
+
+
+-----------------------------------------------------------------------------
+
+agentdetail.php
+---------------
+Description:	displays details for a particular agent.
+Template(s):	agentdetail.tpl
+			jobtable.tpl
+
+Inputs:
+	ID	ID of agency
+
+OutputVars:
+	PageTitle	Title of Page
+	ID		ID of agent
+	ID_FIELD	IF of agent for link ->  ID=<ID>&
+	hide_Agency	set to 1 to hide the agency column from job table
+	hide_Agent	set to 1 to hide the agent column from job table
+	Name		Name of agent
+	Agency			agency details (this is a hashref of:-
+		ID		Agency ID
+		Name		Name of agency
+		ContactList	list of contacts (see loops below)
+	(more set in process_job_list)
+
+OutputLoops:
+	Agency.ContactList	list of contacts for agent's agency
+		Description	Human readable description
+		Keyword		keyword (EMAIL/URL etc)
+		Data		Value for specific contact
+	AgentContactList	list of agent contacts built from the
+				AGENTCONTACT_LNK table from all the contacts
+				for the agent
+		ID		ID of specific contact
+		Description	Human readable description of contact type
+		Data		Value of specific contact
+		ContactType_ID	Contact type ID for current contact
+		Keyword		keyword of contact (EMAIL/URL etc)
+	ContactTypeList		list of contact types built from
+				CONTACTTYPE_CONST table				
+		ID		ID of type
+		Keyword		keyword
+		Description	Human description
+
+
+-----------------------------------------------------------------------------
+
+agents.php
+----------
+Description:	display list of agents in the database
+Template(s):	agents.tpl
+
+Inputs: none
+
+OutputVars:
+	PageTitle	Title of page
+
+OutputLoops:
+	AgentList		list of agents
+		ID		ID of agent
+		Name		Name of agent
+		Agency_ID	ID of agency (if there is one)
+		AgencyName	Name of agency (if there is one)
+		JobCount	Count of jobs
+-----------------------------------------------------------------------------
+
+alljobs.php
+--------------
+Description:	Display list of all jobs
+Template(s):	alljobs.tpl
+
+Inputs: none
+
+OutputsVars:
+	PageTitle	Page Title
+	(more set in process_job_list)
+
+-----------------------------------------------------------------------------
+
+companies.php
+-------------
+Description:	Display list of all companies
+Template(s):	companies.tpl
+
+Inputs:  none
+
+OutputVars:
+	PageTitle	Page Title
+
+OutputLoops:
+	CompanyList		list of companies in the db
+		ID		ID of company
+		Name		Name of company
+		JobCount	count of jobs
+-----------------------------------------------------------------------------
+
+companydetail.php
+-----------------
+Description:	Display details of a particular company
+Template(s):	companydetail.tpl
+			jobtable.tpl
+Inputs:
+	ID	ID of Company
+OutputVars:
+	PageTitle	Title of Page
+	ID		ID of company
+	ID_FIELD	IF of company for link ->  ID=<ID>&
+	hide_Company	set to 1 to hide the company column from job table
+	Name		Name of company
+	(more set in process_job_list)
+	
+OutputLoops:
+	CompanyContactList	list of contacts built from COMPANYCONTACT_LNK
+		ID		ID of contact
+		Data		Data of contact
+		Description	Human readable description of contact type
+		ContactType_ID	Type ID of contact
+		Keyword		keyword
+
+	ContactTypeList		list of contact types built from
+				CONTACTTYOE_CONST table
+		ID		ID of type
+		Keyword		keyword
+		Description	human description
+-----------------------------------------------------------------------------
+
+deletedata.php
+--------------
+Description:	Removes a particular data item from the database
+Template(s):	none, calles jobdetail.php once complete
+
+Inputs:
+	ID	ID of job
+	DataID	ID of Data element
+
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+-----------------------------------------------------------------------------
+
+index.php
+---------
+Description:	main index page
+Template(s):	index.tpl
+
+Inputs:	none
+
+Outputs: none (all done in common settup)
+
+-----------------------------------------------------------------------------
+
+jobdata.php
+-----------
+Description:	displays Job Data Item
+Template(s):	jobdata.tpl
+
+Inputs:
+	ID	ID of Job Data Item
+OutputVars:
+	PageTitle		Title of Page
+	ID			ID of data
+	Description		Description of Data element
+	Data			Data content
+	JobDataTypeDescription	Description of Data Type
+	Keyword			Keyword of datatype (eg TEXT/EMAIL/HTML etc)
+	Job_ID			ID of job the data is for
+	JobTitle		Title of job the data is for
+
+OutputLoops:
+-----------------------------------------------------------------------------
+
+jobdetail.php
+-------------
+Description:	Display job details and provide forms for update
+Template(s):	jobdetail.tpl
+			jobnotestable.tpl
+Inputs:
+	ID	ID of the job
+OutputVars:
+	PageTitle	Title of page
+	ID		ID of job
+	Fake		Fake status of job application, 0 or 1  (JOB.Fake)
+	DateAddeded	Date job was applied for (formated yyyy-mm-dd)
+	DateLastChanged	last checked job date (formated yyyy-mm-dd)
+	DateToCheck	Next check of job (formated yyyy-mm-dd)
+	NextAction_ID	ID of next action (JOB.NextAction_ID)
+	NextAction	next action
+	DateOfInterview	interview date (formated yyyy-mm-dd hh:mm:ss)
+	Status_ID	ID of job status (JOB.Status_ID)
+	Status		Status of Job
+	Type_ID		ID of job type (JOB.Type_ID)
+	Type		Job type
+	Salary		salary for job
+	Source_ID	ID of source of job (JOB.Source_ID)
+	Source		source of job
+	JobTitle	title of job
+	CompanyName	name of company if there is one
+	Company_ID	ID of company
+	Location_ID	ID of location (JOB.Location_ID)
+	Location	Name of location
+	Reference	reference for job (JOB.Reference)
+	Agency_ID	ID of agency for job
+	AgencyName	name of agency
+	NoteCount	count of the number of notes on the job
+	PrimaryAgentID	ID of the primary agent for the job
+
+OutputLoops:
+	NextActionList		list of possible actions (from 
+				NEXTACTION_CONST)
+		ID		ID of action
+		Keyword		keyword
+		Description	human readable decription of action
+	StatusList	list of possible status types (from STATUS_CONST)
+		ID		ID of status
+		Keyword		keyword
+		Description	human readable description of status
+	TypeList	list of possible job types (from TYPE_CONST)
+		ID		ID of type
+		Keyword		keyword
+		Description	human reaable description of type (Full Time/
+				Part Time/Contract etc)
+	SourceList	list of possible sources (from SOURCE_CONST)
+		ID		ID of source
+		Description	name of source
+	LocationList	list of possible locations (from LOCATION_CONST)
+		ID		ID of location
+		Value		Name of location
+	AgentList	list of agents attatched to job (first one in list
+			is *always* the primary agent for the job 
+		ID		ID of agent
+		Name		Name of the agent
+	NewAgentList	list of agents attatched to the same agency as the
+			job is attached to and are *NOT* already attatched
+			to the job. Used to populate the newagentlist field
+		ID		ID of agent
+		Name		Name of agent
+	AllAgentList	list of all agents attatched to agency that 
+			job is will regardless of if they are attatched
+			to the job or not.
+		ID		ID of agent
+		Name		Name of the agent
+	KeywordList	list of keywords attatched to job
+		ID		ID of keyword
+		Keyword		actual keyword
+	JobRelatedList		list of jobs related to this one
+		ID		ID on link table (JOBRELATED_LNK.ID)
+		Related_ID	ID of related job
+		Description	description of relation
+	JobDataList		list of job data elements
+		ID		ID of job data element
+		Description	descriptive name of element
+		Type		descriptive name of element type (eg Image)
+	JobNotesList		list of the notes for the table
+		AddDate		date(and time) note was added
+		Data		content of the note
+		Agent_ID	ID of the agent related to the note if any
+		AgentName	name of agent related to note, if any
+		NoteID		ID of the specific note
+-----------------------------------------------------------------------------
+
+jsareport.php
+-------------
+Description:	displays report of applications and status since last
+		JSA appointment
+Template(s):	jsareportgetdate.tpl
+		jsareport.tpl
+			jsajobtable.tpl
+				jsanotestable.tpl
+Inputs:
+	Date	date to start reoprt from (format yyyy-mm-dd)
+OutputVars:
+	PageTitle	Title of page
+	StartDate		date report starts from
+	CurrentDate		current date
+	(more added by process_job_list)
+OutputLoops:
+	JobList		List of jobs for the report. mostly populated by
+			the process_job_list() function. however the
+			folowing is added.
+		JobNotesData	notes list for particular job
+			AddDate		date/time note was added
+			Data		Content of note
+			Agent_ID	ID of primary agent
+			NoteID		ID of particular note
+			AgentName	name of primary agent
+			
+-----------------------------------------------------------------------------
+
+keyworddetail.php
+-----------------
+Description:	displays details (IE job list) for a particular keyword
+Template(s):	keyworddetail.tpl
+
+Inputs:
+	ID	ID of keyword
+OutputVars:
+	PageTitle	Title of Page
+	ID_FIELD	IF of keyword for link ->  ID=<ID>&
+	Keyword		keyword name
+	(more added by process_job_list)
+
+-----------------------------------------------------------------------------
+
+keywords.php
+------------
+Description:	Displays list of keywords in database
+Template(s):	keywords.tpl
+
+Inputs:	none
+
+OutputVars:
+	PageTitle	Title of page
+OutputLoops:
+	KeywordList		list of keywords
+		ID		ID of keyword
+		Keyword		actual Keyword name
+		JobCount	Count of jobs with that keyword
+
+-----------------------------------------------------------------------------
+
+locationdetail.php
+------------------
+Description:	Displays details of a specific locatoin ie jobs there
+Template(s):	locationdeatil.tpl
+
+Inputs:
+	ID	ID of location
+OutputVars:
+	PageTitle	Title of Page
+	ID_FIELD	IF of location for link ->  ID=<ID>&
+	hide_Location	set to 1 to hide the location column from job table
+	Location	Name of Location
+	(more set in process_job_list)
+
+-----------------------------------------------------------------------------
+
+lcoations.php
+-------------
+Description:	displays list of locations stored in the database
+Template(s):	locations.tpl
+
+Inputs: none
+
+OutputVars:
+	PageTitle	Title of page
+OutputLoops:
+	LocationList	list of locations
+		ID		ID of location
+		Value		Name of location
+		JobCount	count of jobs in that location
+
+
+
+-----------------------------------------------------------------------------
+
+rawdata.php
+-----------
+Description:	produces raw output of data item, eg images or word docs
+		allowing the browser to display
+Template(s):	None - Raw output to browser
+
+Inputs:
+	ID	ID of data item
+OutputVars:
+	None - Raw output
+-----------------------------------------------------------------------------
+
+removecompany.php
+-----------------
+Description:	Removes a particular companies association with a job
+Template(s):	none - calls jobdeatail.php when done
+
+Inputs:
+	ID		ID of Job
+	Company_ID	ID of Company
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+OutputLoops:
+-----------------------------------------------------------------------------
+
+removekeyword.php
+-----------------
+Description:	removes a partcular keywords association with a job
+		if it was the last job associated with the keyword then
+		it removes the keyword itself
+Template(s):	none - calls jobdetail.php when done
+Inputs:
+	ID		Job ID
+	KeywordID	Keyword ID
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+-----------------------------------------------------------------------------
+
+removerelation.php
+------------------
+Description:	removes relationship between two jobs
+Template(s):	none - calls jobdetail.php when done
+
+Inputs:
+	ID		Job ID
+	RelationID	ID of entry in JOBRELATED_LNK table
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+OutputLoops:
+-----------------------------------------------------------------------------
+
+setjobdetails.php
+-----------------
+Description:	Set job details set from form on jobdetail page
+Template(s):	none-calles jobdetail.php when its done
+
+Inputs:
+	ID		ID of job
+	Fake		Fake status of job application, 0 or 1  (JOB.Fake)
+	DateToCheck	Next check of job (yyyy-mm-dd)
+	NextAction_ID	ID of next action (JOB.NextAction_ID)
+	DateOfInterview	interview date (formated yyyy-mm-dd hh:mm:ss)
+	Status_ID	ID of current job status (JOB.Status_ID)
+	Type_ID		ID of current job type (JOB.Type_ID)
+	Salary		salary for job
+	Source_ID	ID of source of the job (JOB.Source_ID)
+	NewSource	new source name, used id Source_ID above set to -1
+	JobTitle	title of job
+	CompanyName	name of company (only use if there isnt already
+			a company associated with the job)
+	Location_ID	ID of the location of the job (JOB.Location_ID)
+	NewLocation	name of new location (only used if Location_ID above
+			set to -1)
+	Reference	Reference code for job
+	PrimaryAgent	ID of the primary agent attatched to the job
+	NewAgentName	new agent name (will be added to AGENT table if new)
+	NewAgentID	ID of new agent from list of existing agents in
+			agency
+	NewKeyword	new keyword name to be added to job
+	NewRelationID		ID of job that this job is to be related to
+	NewRelationDescription	description of new relation between jobs
+
+
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+-----------------------------------------------------------------------------
+
+sourcedetail.php
+----------------
+Description:	show detail of a source, ie list the jobs from that source
+Template(s):	sourcedetail.tpl
+
+Inputs:
+	ID	ID of source
+OutputVars:
+	PageTitle	Title of Page
+	ID_FIELD	IF of source for link ->  ID=<ID>&
+	hide_Source	set to 1 to hide the source column from job table
+	Source		Name of source
+	(more set in process_job_list)
+
+-----------------------------------------------------------------------------
+
+sources.php
+-----------
+Description:	display list of sources for jobs
+Template(s):	sources.tpl
+
+Inputs: none
+
+OutputVars:
+	PageTitle	Title of Page
+OutputLoops:
+	SourceList		list of sources
+		ID		ID of source
+		Description	Name of source
+		JobCount	Count of jobs from that source
+
+-----------------------------------------------------------------------------
+
+stats.php
+---------
+Description:	Displays current statistics
+Template(s):	stats.tpl
+
+Inputs: none
+
+OutputVars:
+	PageTitle		Title of Page
+	TotalJobs		total number of jobs
+	TotalAgencies		total number of agencies
+	TotalAgents		total number of agents
+	TotalNew		total new jobs in last 14 days
+	TotalChanged		total changed jobs in last 14 days
+	TotalOutstanding	total outstanding checks
+	TotalDue		total checks due in 7 days
+
+OutputLoops:
+	StatusCountList		list of count of jobs in diferent states
+				(Open, Closed - Rejected, Closed - No 
+				response etc)
+		Description	Name of "State"
+		Count		Count of jobs in that state
+-----------------------------------------------------------------------------
+
+updateagencydetails.php
+-----------------------
+Description:	update the details of an agency setting its name and
+		changing the contacts for it, called from agencydetails page
+Template(s):	none - calls agencydetail.php when done
+
+Inputs:
+	submit			submit button value of this affects action
+				Change - Change agency Name
+				Edit - Edit a contact entry
+				Remove - Remove a contact entry
+				Add - Add a new contact
+	ID			ID of agency
+	Name			Name of agency (used if submit=Change)
+	WhichContactID		id of contact row (used if submit=Edit/
+				Remove)
+	ContactData-<ID>	data for contact row <ID> set to
+				WhichContactID (used if submit=Edit)
+	ContactType_ID-<ID>	type id for contact row <ID> set to
+				WhichContactID (used it submit=Edit)
+	ContactData		Data for new contact row (used if submit=Add)
+	ContactType_ID		Type for new contact row (used if submit=Add)
+
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+-----------------------------------------------------------------------------
+
+updateagentdetails.php
+----------------------
+Description:	update the details of an agent setting its name and
+		changing the contacts for it, called from agentdetails page
+Template(s):	none - calls agentdetail.php when done
+
+Inputs:
+	submit			submit button value of this affects action
+				Change - Change agent Name
+				Edit - Edit a contact entry
+				Remove - Remove a contact entry
+				Add - Add a new contact
+	ID			ID of agent
+	Name			Name of agent (used if submit=Change)
+	WhichContactID		id of contact row (used if submit=Edit/
+				Remove)
+	ContactData-<ID>	data for contact row <ID> set to
+				WhichContactID (used if submit=Edit)
+	ContactType_ID-<ID>	type id for contact row <ID> set to
+				WhichContactID (used it submit=Edit)
+	ContactData		Data for new contact row (used if submit=Add)
+	ContactType_ID		Type for new contact row (used if submit=Add)
+
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+-----------------------------------------------------------------------------
+
+updatecompanydetails.php
+------------------------
+Description:	update the details of a company setting its name and
+		changing the contacts for it, called from companydetails page
+Template(s):	none - calls companydetail.php when done
+
+Inputs:
+	submit			submit button value of this affects action
+				Change - Change company Name
+				Edit - Edit a contact entry
+				Remove - Remove a contact entry
+				Add - Add a new contact
+	ID			ID of company
+	Name			Name of company (used if submit=Change)
+	WhichContactID		id of contact row (used if submit=Edit/
+				Remove)
+	ContactData-<ID>	data for contact row <ID> set to
+				WhichContactID (used if submit=Edit)
+	ContactType_ID-<ID>	type id for contact row <ID> set to
+				WhichContactID (used it submit=Edit)
+	ContactData		Data for new contact row (used if submit=Add)
+	ContactType_ID		Type for new contact row (used if submit=Add)
+
+OutputVars:
+	LAST_RESULT_MESSAGE	Set result message for db update
+	LAST_RESULT_TYPE	Type of message (OK/FAIL)
+
+-----------------------------------------------------------------------------
+
+utils.php
+#########
+Utils file containing common functions. The template affecting functions
+are.
+
+process_job_list(dbh,smarty,pager_size,count_clause,main_clause,
+		 extra_tables,order)
+	Generates the template variables to fill out the job list table
+	(jobtable.tpl), also returns the main joblist data for additional
+	modification/usage if required.
+
+	Function-Variables:
+		dbh		database handle
+		smarty		smarty object
+		pager_size	number of rows to limit to
+		count_clause	aditional restrictions to where statement
+				for counting total number of rows
+				default = ""
+		main_clause	additional resctictions to where statement
+				for main data query default=""
+		extra_tables	additional tables to add to the FROM
+				part of SQL (default="")
+		order		order by statement overwrides CGI variable
+				default=""
+	CGI-Variables:
+		start		Initial row (for LIMIT x,y SQL command)
+		order		Which Field to order by
+		decrement	If=1 then order is decending
+
+	Outputs:
+		start_prev	row number to start from for previous
+				page
+		start_next	row number to start from for next page
+		rev_<order>	if we are ordering by a particular
+				column then rev_<that_column>, (eg
+				rev_DateAdded) is set to "&decrement=1"
+				in order for the template to update the
+				link on that column to make it reverse
+				the order if clicked again.
+		decrement	if we are running in reverse order then
+				this is set to "&decrement=1" in order to
+				ensure that next/previous page links
+				retain the order direction
+		order		set to the current order column
+		first_record	row number of first record on current page
+		last_record	row number of last record on current page
+		total_records	total number of records
+	Loops:
+		JobList			list of jobs in question
+			ID		ID of job
+			Fake		set to 1 if job is fake.
+			DateAdded	Date job was applied for.
+			DateLastChanged	Last update of job
+			DateToCheck	Date next check due
+			DateOfInterview	Date of interview
+			JobTitle	Title of job
+			Company_ID	ID of company
+			Company		Name of company
+			Location	location of job
+			Reference	reference of job
+			Agency_ID	ID of agency
+			Agency		Name of agency
+			Agent_ID	ID of primary Agent
+			Agent		name of primary agent
+			Notes		count of notes in job
+			Status		Status of job (Open/Closed/Onhold)
+			NextAction	Next action to perform
+
+buildLoopByQuery(dbh,smarty,varname,query)
+	Takes the query given executes it and assigned the whole thing
+	as a list to the smarty variable varname
+
+buildLoopByTable(dbh,smarty,varname,table,order,desc)
+	similar to buildLoppByQuery however it just pulls the content
+	of the whole table, order and desc are optional and can be
+	used to affect the order and direction produced
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+.php
+--------
+Description:	
+Template(s):	
+
+Inputs:
+
+OutputVars:
+
+OutputLoops:
+-----------------------------------------------------------------------------
+
+

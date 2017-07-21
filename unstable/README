@@ -1,0 +1,42 @@
+Job Applications Tracker
+========================
+
+Copyright (c)  2003-  Peter J Wise (Vagnerr) <peter AT bloodaxe DOT com>
+
+This code is protected under the Gnu Public License (See LICENCE). You 
+are free to make use of it as you wish. It is supplied as is and
+WITHOUT ANY WARRANTY. After all you get what you pay for :-).
+
+What is it?
+-----------
+
+Job Applications Tracker is a web based system using PHP and MySQL that 
+allows you to keep track of your job applications. The system allows
+you to log individual job applications and link them to particular
+agents, agencies, and locations, as well as where you saw the role
+advertised. You can then attach arbitrary data to a job along with 
+individual notes each time you talk to an agent. You can then 
+crossreference all the data allowing you to make informed 
+decisions on which agents are being helpfull and which are not.
+
+Should you be in a situation where you are required to attend regular
+signing on sessions for unemployment then the JSA Report section
+will allow you to quickly generate a report of your attempts to 
+find work. Afterall if you are in the unfortunate position to
+be need these reports you probably want to spend your time looking
+for work rather than writing reports about it.
+
+Where can you get it?
+---------------------
+
+You can get the latest version from the project homepage on sourceforge
+at:-
+	http://sourceforge.net/projects/jobtrack/
+
+
+How do you install it?
+----------------------
+
+check the INSTALL file for pre-requisits and install details.
+
+

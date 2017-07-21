@@ -1,0 +1,921 @@
+Variables Used/Available to Templates
+=====================================
+
+-----------------------------------------------------------------------------
+
+activejobs.tpl
+--------------
+Description:	Holding template for activejobs page
+Called By:	activejobs.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+
+-----------------------------------------------------------------------------
+
+adddata.tpl
+-----------
+Description:	Page containing form to add and attach freeform data
+		to a specified job
+Called By:	adddata.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	ID	Job ID that we are uploading for.
+
+Loops:
+	JobDataTypeList		list of possible job data types filled from
+				JOBDATATYPE_CONST table
+		ID		ID of type
+		Keyword		keyword
+		Description	Human description
+FORM:
+	name:	
+	action:	adddata.php
+	submit: name="" value="Upload"
+
+	MAX_FILE_SIZE	reserveved var limiting the file upload (hidden)
+	action		set to "upload" by form used by php script to
+			decide between displaying the form or upload
+			the data and display job page (hidden)
+	ID		ID of job to upload data for also sets the ID
+			for when adddata.php calls jobdetail.php after
+			upload (hidden)
+	Description	Description to store with the data for display
+			on the jobdetail page
+	JobDataType_ID	ID of type of data (for text/email/image etc)
+	FileName	Filename to upload (input type="file")
+	Data		cut-n-paste alternative to file upload
+
+
+-----------------------------------------------------------------------------
+
+
+add.tpl
+-------
+Description:	Page containing blank job add form to add new jobs
+		to database
+Called By:	add.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	MARK_FAKE	mark fake control if set then show checkbox
+			to set fake status otherwise set hidden input
+			field setting fake to 0
+Loops:
+	NextActionList	list of all the "next action" options from
+			NEXTACTION_CONST table (built directly from table
+		ID		Computer ID to be assigned in form
+		Keyword		Computer Keyword (not being used by code)
+		Description	Human Name of Action
+	StatusList	list of all the possible statuses built directly
+			from the STATUS_CONST table
+		ID		ID to be assigned
+		Keyword
+		Description	Human name
+	TypeList	list of types built from TYPE_CONST table
+		ID		ID to be assigned
+		Keyword
+		Description	Human name
+	SourceList	list of available sources
+		ID		ID to be assigned
+		Description	Human name
+	LocationList	list of available locations
+		ID		ID to be assigned
+		Value		human name
+	AgencyList	list of the available agencies
+		ID		ID to be assigned
+		Name		Human name
+
+FORM:
+	name:	add
+	action:	add.php
+	submit: name="submit" value="Submit New Job"
+
+	Fake		Fake status of job application, 0 or 1  (JOB.Fake)
+	DateAdded	Date application added to the DB (JOB.DateAdded)
+	DateToCheck	Date of nect job check (JOB.DateToCheck)
+	NextAction_ID	ID for next action (JOB.NextAction_ID)
+	DateOfInterview	date of interview (JOB.DateOfInterview)
+	Status_ID	Status ID of job (JOB.Status_ID)
+	Type_ID		Type ID of job (JOB.Type_ID)
+	Salary		Salary offered for job
+	Source_ID	Source ID of job (JOB.Source_ID)
+	NewSource	New source name (used if Source_ID set to -1)
+	JobTitle	Title of job (JOB.JobTitle)
+	NewCompany	Name of company (COMPANY.Name linked to JOB.Company_ID)
+	Location_ID	Location ID of job (JOB.Location_ID)
+	NewLocation	New location (used if Location_ID set to -1)
+	Reference	Reference of job (JOB.Reference)
+	Agency_ID	ID of agency (JOB.Agency_ID)
+	NewAgency	New agency name (used if Agency = -1)
+
+-----------------------------------------------------------------------------
+
+agencies.tpl
+------------
+Description:	Page displays all the registered agencies along with a 
+		count of the agents at the agency and the jobs with the
+		agency
+Called By:	agencies.php
+Includes:	header.tpl
+		footer.tpl
+
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+Loops:
+	AgencyList	list of agencies
+		ID		ID of agency
+		Name		Name of agency
+		AgentCount	Count of agents in agency
+		JobCount	Count of jobs with agency
+
+-----------------------------------------------------------------------------
+
+agencydetail.tpl
+----------------
+Description:	Page displays the details for a particular agency. Name,
+		Contacts, Agents, Jobs associated, etc
+Called By:	agencydetail.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	ID		ID of agency
+	Name		Name of agency
+Loops:
+	AgencyContactList	list of contacts for the agency built from
+				the AGENCYCONTACT_LNK table from all the
+				contacts for this agency
+		ID		ID of specific contact
+		Description	Human readable description of contact type
+		Data		Value of specific contact
+		ContactType_ID	Contact Type ID for current contact
+		Keyword		keyword of contact (EMAIL/URL etc)
+
+	ContactTypeList		list of contact types built from
+				CONTACTTYPE_CONST table
+		ID		ID of type
+		Keyword		keyword
+		Description	Human description
+
+	AgentList	list of agents at the agency
+		ID		ID of the Agent
+		Name		Name of the agent
+		ContactList	list of contacts for specific agent
+			Description	Description of type (Email/Phone etc)
+			Keyword		keyword of type (EMAIL/URL etc)
+			Data		contact data itself
+
+FORM:
+	name:	agencyform
+	action:	updateagencydetails.php
+	submit: name="submit" value="Change"		Change Agency Name
+	submit: name="submit" value="Edit"		Edit Contact
+	submit: name="submit" value="Remove"		Remove Contact
+	submit: name="submit" value="Add"		Add Contact
+
+	ID			ID of agency (hidden)
+	Name			Name of agency
+	WhichContactID		which Contact ID to Edit/Remove set to the
+				requried ID of the contact being modified
+				when the Edit/Remove button is pressed for
+				that contact row with javascript (hidden)
+	ContactData-<ID>	data field for particular contact
+	ContactType_ID-<ID>	type ID for particular contact
+	ContactData		data field for new contact
+	ContactType_ID		type ID for new contact
+
+	
+-----------------------------------------------------------------------------
+
+agentdetail.tpl
+---------------
+Description:	Page displays the details for a particular agent, Name,
+		agency they are with contact details jobs etc.
+		
+Called By:	agentdetail.tpl
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	ID		ID of agent
+	Name		Name of agent
+	Agency			agency details (this is a hashref of:-
+		ID		Agency ID
+		Name		Name of agency
+		ContactList	list of contacts (see loops below)
+
+Loops:
+	AgentContactList	list of agent contacts built from the
+				AGENTCONTACT_LNK table from all the contacts
+				for the agent
+		ID		ID of specific contact
+		Data		Value of specific contact
+		ContactType_ID	Contact type ID for current contact
+		Keyword		keyword of contact (EMAIL/URL etc)
+	ContactTypeList		list of contact types built from
+				CONTACTTYPE_CONST table				
+		ID		ID of type
+		Keyword		keyword
+		Description	Human description
+	Agency.ContactList	list of contacts for agent's agency
+		Description	Human readable description
+		Keyword		keyword (EMAIL/URL etc)
+		Data		Value for specific contact
+		
+FORM:	
+	name:	agentform
+	action:	updateagentdetails.php
+	submit: name="submit" value="Change"		Change Agent Name
+	submit: name="submit" value="Edit"		Edit Contact
+	submit: name="submit" value="Remove"		Remove Contact
+	submit: name="submit" value="Add"		Add Contact
+
+	ID			ID of agent (hidden)
+	Name			Name of agent
+	WhichContactID		which contact ID to Edit/Remove set to the 
+				required ID of contact being modified when 
+				the Edit/Remove button is pressed to that
+				contact row with javascript (hidden)
+	ContactData-<ID>	data field for a particular contact
+	ContactType_ID-<ID>	type id for particular contact
+	ContactData		data field for noew contact
+	ContactType_ID		type ID field for new contact
+
+
+-----------------------------------------------------------------------------
+
+agents.tpl
+----------
+Description:	Page lists all the agents in the database along with 
+		the agency they are a member of and the number of
+		jobs associated with them (as primary agent)
+Called By:	agents.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+Loops:
+	AgentList		list of agents
+		ID		ID of agent
+		Name		Name of agent
+		Agency_ID	ID of agency (if there is one)
+		AgencyName	Name of agency (if there is one)
+		JobCount	Count of jobs
+
+-----------------------------------------------------------------------------
+
+alljobs.tpl
+-----------
+Description:	Holding template for all jobs page
+Called By:	alljobs.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+
+-----------------------------------------------------------------------------
+
+companies.tpl
+-------------
+Description:	Page lists all the companies in the database along with the
+		count of jobs with that company
+Called By:	companies.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+
+Loops:
+	CompanyList		list of companies in the db
+		ID		ID of company
+		Name		Name of company
+		JobCount	count of jobs
+
+-----------------------------------------------------------------------------
+
+companydetail.tpl
+-----------------
+Description:	Page gives company details, name, contacts, jobs with etc
+Called By:	companydetail.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	ID	ID of company
+	Name	Name of company
+
+
+Loops:
+	CompanyContactList	list of contacts built from COMPANYCONTACT_LNK
+		ID		ID of contact
+		Data		Data of contact
+		ContactType_ID	Type ID of contact
+		Keyword		keyword
+
+	ContactTypeList		list of contact types built from
+				CONTACTTYOE_CONST table
+		ID		ID of type
+		Keyword		keyword
+		Description	human description
+
+FORM:
+	name:	companyform
+	action:	updatecompanydetails.php.php
+	submit: name="submit" value="Change"
+	submit: name="submit" value="Edit"		Edit Contact
+	submit: name="submit" value="Remove"		Remove Contact
+	submit: name="submit" value="Add"		Add Contact
+
+	ID			ID of company
+	Name			Name of company
+	WhichContactID		which Contact ID to Edit/Remove set to the
+				requried ID of the contact being modified
+				when the Edit/Remove button is pressed for
+				that contact row with javascript (hidden)
+	ContactData-<ID>	data field for particular contact
+	ContactType_ID-<ID>	type ID for particular contact
+	ContactData		data field for new contact
+	ContactType_ID		type ID for new contact
+
+
+-----------------------------------------------------------------------------
+
+footer.tpl
+----------
+Description:	Footer Template included by almost all templates to
+		close up the html page
+Called By:	None - (inluded template)
+Includes:	menu.tpl
+		
+-----------------------------------------------------------------------------
+
+header.tpl
+----------
+Description:	Header template inludec by almost all templates to start
+		up the html page. Also handles the reporting of any
+		CGI success/fail messages on update pages
+Called By:	None - (included template)
+Includes:	menu.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	LAST_RESULT_MESSAGE	message generated by last cgi data update
+	LAST_RESULT_TYPE	set to "OK" or "FAIL"
+
+-----------------------------------------------------------------------------
+
+index.tpl
+---------
+Description:	Main index page just lists the menu options
+		
+Called By:	index.php
+Includes:	header.tpl
+		footer.tpl
+Loops:
+	MenuList	list of menu items
+		URL	url to go to
+		Name	name to call the link
+
+-----------------------------------------------------------------------------
+
+jobdata.tpl
+-----------
+Description:	Page to display a particular data item attached to a job
+Called By:	jobdata.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	ID			ID of data
+	Description		Description of Data element
+	Data			Data content
+	JobDataTypeDescription	Description of Data Type
+	Keyword			Keyword of datatype (eg TEXT/EMAIL/HTML etc)
+	Job_ID			ID of job the data is for
+	JobTitle		Title of job the data is for
+
+-----------------------------------------------------------------------------
+
+jobdetail.tpl
+-------------
+Description:	Page that displays the full details of a specific job
+		along with the modification form and job notes list include
+Called By:	jobdetail.php
+Includes:	header.tpl
+		footer.tpl
+		jobnotestable.tpl
+		libraries/functions.js		(rollover table colours)
+		/smarty_datepick/javascripts/datepick.js	(datepick)
+Variables:
+	PageTitle	Title of page
+	ID		ID of job
+	MARK_FAKE	mark fake control if set then show checkbox
+			to set fake status otherwise set hidden input
+			field setting fake to 0
+	Fake		Fake status of job application, 0 or 1  (JOB.Fake)
+	DateAdded	Date job was applied for (formated yyyy-mm-dd)
+	DateLastChanged	last checked job date (formated yyyy-mm-dd)
+	DateToCheck	Next check of job (formated yyyy-mm-dd)
+	NextAction_ID	ID of next action (JOB.NextAction_ID)
+	NextAction	next action
+	DateOfInterview	interview date (formated yyyy-mm-dd hh:mm:ss)
+	Status_ID	ID of job status (JOB.Status_ID)
+	Status		Status of Job
+	Type_ID		ID of job type (JOB.Type_ID)
+	Type		Job type
+	Salary		salary for job
+	Source_ID	ID of source of job (JOB.Source_ID)
+	Source		source of job
+	JobTitle	title of job
+	CompanyName	name of company if there is one
+	Company_ID	ID of company
+	Location_ID	ID of location (JOB.Location_ID)
+	Location	Name of location
+	Reference	reference for job (JOB.Reference)
+	Agency_ID	ID of agency for job
+	AgencyName	name of agency
+	NoteCount	count of the number of notes on the job
+	PrimaryAgentID	ID of the primary agent for the job
+	
+Loops:
+	NextActionList		list of possible actions (from 
+				NEXTACTION_CONST)
+		ID		ID of action
+		Keyword		keyword
+		Description	human readable decription of action
+	StatusList	list of possible status types (from STATUS_CONST)
+		ID		ID of status
+		Keyword		keyword
+		Description	human readable description of status
+	TypeList	list of possible job types (from TYPE_CONST)
+		ID		ID of type
+		Keyword		keyword
+		Description	human reaable description of type (Full Time/
+				Part Time/Contract etc)
+	SourceList	list of possible sources (from SOURCE_CONST)
+		ID		ID of source
+		Description	name of source
+	LocationList	list of possible locations (from LOCATION_CONST)
+		ID		ID of location
+		Value		Name of location
+	AgentList	list of agents attatched to job (first one in list
+			is *always* the primary agent for the job 
+		ID		ID of agent
+		Name		Name of the agent
+	NewAgentList	list of agents attatched to the same agency as the
+			job is attached to and are *NOT* already attatched
+			to the job. Used to populate the newagentlist field
+		ID		ID of agent
+		Name		Name of agent
+	KeywordList	list of keywords attatched to job
+		ID		ID of keyword
+		Keyword		actual keyword
+	JobRelatedList		list of jobs related to this one
+		ID		ID on link table (JOBRELATED_LNK.ID)
+		Related_ID	ID of related job
+		Description	description of relation
+	JobDataList		list of job data elements
+		ID		ID of job data element
+		Description	descriptive name of element
+		Type		descriptive name of element type (eg Image)
+
+		
+FORM:
+	name:	jobdetail
+	action:	setjobdetails.php
+	submit: standard
+
+	ID		ID of job
+	Fake		Fake status of job application, 0 or 1  (JOB.Fake)
+	DateToCheck	Next check of job (yyyy-mm-dd)
+	NextAction_ID	ID of next action (JOB.NextAction_ID)
+	DateOfInterview	interview date (formated yyyy-mm-dd hh:mm:ss)
+	Status_ID	ID of current job status (JOB.Status_ID)
+	Type_ID		ID of current job type (JOB.Type_ID)
+	Salary		salary for job
+	Source_ID	ID of source of the job (JOB.Source_ID)
+	NewSource	new source name, used id Source_ID above set to -1
+	JobTitle	title of job
+	CompanyName	name of company (only use if there isnt already
+			a company associated with the job)
+	Location_ID	ID of the location of the job (JOB.Location_ID)
+	NewLocation	name of new location (only used if Location_ID above
+			set to -1)
+	Reference	Reference code for job
+	PrimaryAgent	ID of the primary agent attatched to the job
+	NewAgentName	new agent name (will be added to AGENT table if new)
+	NewAgentID	ID of new agent from list of existing agents in
+			agency
+	NewKeyword	new keyword name to be added to job
+	NewRelationID		ID of job that this job is to be related to
+	NewRelationDescription	description of new relation between jobs
+
+
+-----------------------------------------------------------------------------
+
+jobnotestable.tpl
+-----------------
+Description:	template contains html code for table of all notes related
+		usualy to a job (however it is up to the calling script
+		to determine pick of notes from the DB
+Called By:	jobdetail.php (indirectly, included by jobdetail.tpl)
+		
+Variables:
+	ID		Job ID notes are for
+	Status_ID	ID of status of current job
+	PrimaryAgentID	ID of the primary agent for the job
+
+Loops:
+	JobNotesList		list of the notes for the table
+		AddDate		date(and time) note was added
+		Data		content of the note
+		Agent_ID	ID of the agent related to the note if any
+		AgentName	name of agent related to note, if any
+		NoteID		ID of the specific note
+	NextActionList		list of possible actions (from 
+				NEXTACTION_CONST)
+		ID		ID of action
+		Description	human readable decription of action
+	StatusList	list of possible status types (from STATUS_CONST)
+		ID		ID of status
+		Description	human readable description of status
+	AllAgentList	list of all agents attatched to agency that 
+			job is will regardless of if they are attatched
+			to the job or not.
+		ID		ID of agent
+		Name		Name of the agent
+
+FORM:
+	name:	addnote
+	action:	addnote.php
+	submit: name="submit" value="Add Note"
+
+	ID		Job ID we are adding notes to
+	AddDate		date (and time) note added (yyyy-mm-dd hh:mm:ss)
+			if left blank php script will add as current time
+	NextCheck	number of days to next check *from now*, -1 for
+			never
+	NextAction_ID	ID of next intended action
+	Status_ID	ID to set the status of the job to on submision
+			of note
+	Data		Content of actual note to be added
+	Agent_ID	ID of agent to add
+	NewAgentName	new agent name (will be added to AGENT table if new)
+			only used if Agent_ID above is set to -1
+
+-----------------------------------------------------------------------------
+
+jobtable.tpl
+------------
+Description:	Template for the table of jobs all the columns can be
+		selectivly removed and can be ordered on most. has
+		paging support
+Called By:	Many, included in a number of templates from
+		alljobs.tpl,activejobs.tpl,agentdetail.tpl, etc however
+		all the data for the table is produced by a single 
+		function - process_job_list() in utils.php
+		
+Variables:
+	hide_DateAdded		hide_ variables if any of these are set
+	hide_DateLastChanged		the corresponding column/data
+	hide_DateToCheck		should be suppressed. These are
+	hide_JobTitle			pretty mutch the only elements
+	hide_Company			that are set outside the process
+	hide_Location			function as they can be set by
+	hide_Reference			an individual script
+	hide_Agency
+	hide_Agent
+	hide_Notes
+	hide_Status
+	rev_DateAdded		rev_ variables the column that corresponds
+	rev_DateLastChanged		to the data being used to sort has
+	rev_DateToCheck			its respective rev_ var set to :-
+	rev_JobTitle			"&decrement=1" so should the column
+	rev_Company			be clicked a second time the order
+	rev_Location			will be reversed.
+	rev_Reference
+	rev_Agency
+
+	$PHP_SELF	built in PHP variable, enables us to support
+			this template being included in any of the php
+			outputs whilst continuing to support column
+			ordering and paging
+	$ID_FIELD	for Agent and Agency details pages that list
+			jobs, this is set to "ID=<agentid>&" or whatever
+			allowing all links in the table to stay associated
+			with the same Agent/agency etc.
+	$MARK_FAKE	if set then display any fake marking, otherwise
+			hide it from view
+
+	start_prev	row number to start at for the previous page
+			if empty then there is no previous page
+	start_next	row number to start at for the next page
+			if empty then there is no next page
+	order		column name to order by
+	decrement	if we are in reverse order then will be set to
+			"&decrement=1"
+	first_record	row number of first record on current page
+	last_record	row number of last record on current page
+	total_records	total number of records
+
+Loops:
+	JobList			list of jobs in question
+		ID		ID of job
+		Fake		IF set (to 1) then the job is fake, mark.
+		DateAdded	Date job was applied for.
+		DateLastChanged	Last update of job
+		DateToCheck	Date next check due
+		DateOfInterview	Date of interview
+		JobTitle	Title of job
+		Company_ID	ID of company
+		Company		Name of company
+		Location	location of job
+		Reference	reference of job
+		Agency_ID	ID of agency
+		Agency		Name of agency
+		Agent_ID	ID of primary Agent
+		Agent		name of primary agent
+		Notes		count of notes in job
+		Status		Status of job (Open/Closed/Onhold)
+		NextAction	Next action to perform
+
+-----------------------------------------------------------------------------
+
+jsajobtable.tpl
+---------------
+Description:	main part of the template for the JSA report, the part
+		that actualy displays most of the data
+Called By:	jsareport.tpl indirectly (included by jsareport.tpl)
+Includes:	jsanotestable.tpl (looped)
+		
+Variables:
+
+Loops:
+	JobList		list of jobs for the report
+		JobTitle		Title of job
+		Reference		Reference of job
+		DateAdded		Date job applied for
+		DateLastChanged		last date job modified
+		DateOfInterview		date and time of interview
+		DateToCheck		date of next check
+		Company			company name
+		Location		location of job
+		Agency			agency of job
+		Agent			primary agent
+		Status			status of job
+		NextAction		Next action to perform
+		JobNotesList		notes list for a particular job,
+					see jsanotestable for more detail.
+					template should pass this on into
+					jsanotestable with command:-
+					JobNotesList=
+						$JobList[jobsec].JobNotesList
+					in the {include } instruction
+-----------------------------------------------------------------------------
+
+jsanotestable.tpl
+-----------------
+Description:	template for notes part of jsa job report, included
+		repeatedly for each job in the joblist
+Called By:	jsareport.php via jsareport->jsajobtable->jsanotestable
+		
+Variables:
+
+Loops:
+	JobList.JobNotesList (or just JobNotesList if jsajobtable has set it
+				in the include)
+				notes list for a particular job, part of
+				the JobList on the jsajobtable template
+				(can this list be passed as an argument
+				to the include?)
+		AddDate		date/time note was added
+		Data		Content of note
+		Agent_ID	ID of primary agent
+		NoteID		ID of particular note
+		AgentName	name of primary agent
+
+-----------------------------------------------------------------------------
+
+jsareportgetdate.tpl
+--------------------
+Description:	Page to request the start date for a JSA report
+		
+Called By:	jsareport.php
+Includes:	header.tpl
+		footer.tpl
+		/smarty_datepick/javascripts/datepick.js
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+Loops:
+
+FORM:
+	name:	dateform
+	action:	jsareport.php
+	submit: standard
+
+	Date		Date to start the report from
+
+-----------------------------------------------------------------------------
+
+jsareport.tpl
+-------------
+Description:	Main holding template for jsa report output page
+		
+Called By:	jsareport.php
+Includes:	jsajobtable.tpl
+		
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	StartDate		date report starts from
+	CurrentDate		current date
+	total_record		total new applications
+
+-----------------------------------------------------------------------------
+
+keyworddetail.tpl
+-----------------
+Description:	Page displays keyword "Details", namely the jobs that
+		are associated with that keyword
+		
+Called By:	keyworddetail.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	Keyword		keyword name
+
+-----------------------------------------------------------------------------
+
+keywords.tpl
+------------
+Description:	Page displayes all the keywords currently in the system
+		
+Called By:	keywords.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+
+Loops:
+	KeywordList		list of keywords
+		ID		ID of keyword
+		Keyword		actual Keyword name
+		JobCount	Count of jobs with that keyword
+
+-----------------------------------------------------------------------------
+
+locationdetail.tpl
+------------------
+Description:	Page displays Location details of a location ie name and
+		jobs associated with it
+Called By:	locationdetail.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	Location	Location name
+
+-----------------------------------------------------------------------------
+
+locations.tpl
+-------------
+Description:	Displays a list of the locations in the database along
+		with a count of the jobs at that location
+Called By:	locations.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+
+Loops:
+	LocationList	list of locations
+		ID		ID of location
+		Value		Name of location
+		JobCount	count of jobs in that location
+
+-----------------------------------------------------------------------------
+
+menu.tpl
+--------
+Description:	Menu bar at top and bottom of each page
+		
+Called By:	included by most other page templates
+		
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+Loops:
+	MenuList	list of menu items
+		Name	name for menu link
+		URL	url for menu link
+
+-----------------------------------------------------------------------------
+
+sourcedetail.tpl
+----------------
+Description:	Detail of a particular source, IE name and list of jobs from
+		that source
+Called By:	sourcedetail.php
+Includes:	header.tpl
+		footer.tpl
+		jobtable.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	Source		Name of source
+
+-----------------------------------------------------------------------------
+
+sources.tpl
+-----------
+Description:	Page display list of sources stored in the database along
+		with a count of the jobs from that source
+Called By:	sources.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+
+Loops:
+	SourceList		list of sources
+		ID		ID of source
+		Description	Name of source
+		JobCount	Count of jobs from that source
+
+-----------------------------------------------------------------------------
+
+stats.tpl
+---------
+Description:	Basic stats page giveing counts of diferent job statuses
+		number of jobs, agents, agencies etc
+		
+Called By:	stats.php
+Includes:	header.tpl
+		footer.tpl
+Variables:
+	PageTitle	Title of Page, used in <h1> tags and also passed up
+			to header/footer to remove links from current page
+			on menu.
+	TotalJobs		total number of jobs
+	TotalAgencies		total number of agencies
+	TotalAgents		total number of agents
+	TotalNew		total new jobs in last 14 days
+	TotalChanged		total changed jobs in last 14 days
+	TotalOutstanding	total outstanding checks
+	TotalDue		total checks due in 7 days
+Loops:
+	StatusCountList		list of count of jobs in diferent states
+				(Open, Closed - Rejected, Closed - No 
+				response etc)
+		Description	Name of "State"
+		Count		Count of jobs in that state
+		
+-----------------------------------------------------------------------------

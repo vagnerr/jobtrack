@@ -1,0 +1,67 @@
+Job Applications Tracker (Installation)
+=======================================
+
+Prerequisists
+-------------
+
+You need the following to get started.
+
+1) A MySQL database version 11.15 or later.
+2) A web server with PHP 4.0.6 or later.
+3) Smarty 2.4 or later
+4) Smarty DatePick plugin (available from smarty.php.net)
+
+
+Installation
+------------
+
+1)  If you have not already done so and need to, follow the install
+    instructions for MySQL, PHP, Smarty, and the Smarty DatePick 
+    plugin.
+2)  Unzip in this package you will find a website directory containing
+    three directories.
+         configs
+         docroot
+         templates
+    These are the smarty directories of the same name. You will need
+    to place the contents of each of these on your web server, along
+    with ensuring you have the templates_c directory as required by
+    smarty.
+3)  In the plugins directory you will find an aditional Smarty plugin
+    (resource.skin.php) you will need to copy it to the smarty plugin
+    directory. I.e.
+             /usr/lib/php/Smarty/plugins/resource.skin.php
+4)  Edit the common_setup.php and modify $base to the base location
+    for your installation.
+5)  Edit the db_setup.php file and fill out the database connection
+    details.
+6)  Create a new database in MySQL and a new user to access that
+    database.
+7)  Initialise the database. In the database directory you will find
+    an initial database schema. Run that against the database. eg.
+        mysql -u database_u -p DATABASENAME < Job-app-initialload.sql
+
+Extra Setup (optional)
+-----------
+
+There are some extra configuration options that you can alter if you
+need to. These are all in the common_setup.php file
+
+$mark_fake
+   This is set to 1 by default. This instructs the application to 
+   display "fake" status of jobs and allow you to change that. Usefull
+   if you have a quiet week and need to bolster your figures for a job
+   seakers agreement. Set this to 0 if you dont need it.
+
+$pager_size
+   A number of pages produce a list of jobs. This variable determines
+   how many are displayed per page.
+
+$smarty->skin_name
+   In the templates directory there is a skins directory in if 
+   skin_name is set then the application will look in
+      templates/skins/<skin_name>/
+   for its templates first before reverting to the defaults.
+
+
+
