@@ -7,7 +7,7 @@
 
 #PDA#define('DIRECTORY_SEPARATOR' , '/');
 #PDA#ini_set("include_path", ".:/usr/local/lib/php:/home/www/htdocs:/home/www/configs");
-ini_set("include_path", ".:/usr/local/lib/php:/var/www/Smarty");
+ini_set("include_path", ".:/usr/local/lib/php:/var/www/Smarty:/var/www/lib/Date");
 
 /* Create and Initialise the smarty object */
 require("Smarty.class.php");

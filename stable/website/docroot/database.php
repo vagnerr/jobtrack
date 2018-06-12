@@ -14,17 +14,18 @@ class Database
 
 	function connect ($db){
 		if($this->connected) die ("already Connected to DB");
-		$this->link = mysql_connect($db{host},$db{username},$db{password})
+		$this->link = mysqli_connect($db{host},$db{username},$db{password})
 							or die("Connect failed");
-		mysql_select_db($db{database})
+		mysqli_select_db($this->link, $db{database})
 							or die("Select failed");
 		$this->connected = 1;
 		return $link;
 	}
 
 	function execute($query){
+error_log("SQL:" . $query);
 		if(!$this->connected) die ("Not1 connected to DB");
-		$this->result = mysql_query($query) or die (mysql_error());
+		$this->result = mysqli_query($this->link, $query) or die (mysqli_error($this->link));
 		return $this->result;
 	}
 
@@ -38,7 +39,7 @@ class Database
 	}
 
 	function _fetch_assoc($resobj){
-		$this->line = mysql_fetch_array($resobj, MYSQL_ASSOC);
+		$this->line = mysqli_fetch_array($resobj, MYSQLI_ASSOC);
 		return $this->line;
 	}
 
@@ -53,7 +54,7 @@ class Database
 
 	function _fetch_all_assoc($resobj){
 		$count = 0;
-		while($line = mysql_fetch_array($resobj, MYSQL_ASSOC)){
+		while($line = mysqli_fetch_array($resobj, MYSQLI_ASSOC)){
 			$returnarr[$count++] = $line;
 		}
 		return $returnarr;
@@ -61,22 +62,22 @@ class Database
 
 	function free_result($resobj =0){
 		if ($resobj){
-			mysql_free_result($resobj);
+			mysqli_free_result($resobj);
 		}else{
-			mysql_free_result($this->result);
+			mysqli_free_result($this->result);
 		}
 	}
 
 	function last_insert_id($resobj =0){
 		if ($resobj){
-			return mysql_insert_id($resobj);
+			return mysqli_insert_id($this->link, $resobj);
 		}else{
-			return mysql_insert_id();
+			return mysqli_insert_id($this->link);
 		}
 	}
 
 	function disconnect(){
-		if($this->connected) mysql_close($this->link);
+		if($this->connected) mysqli_close($this->link);
 		$this->connected = 0;
 	}
 
