@@ -8,7 +8,7 @@
 global $db;  
   
 $db = array(  
-     "host"              =>     "localhost",  
+     "host"              =>     "job-mysql",  
      "username"          =>     "jobapp_u",  
      "password"          =>     "jobapp_p",  
      "database"          =>     "JOBAPPS"  

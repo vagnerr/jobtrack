@@ -7,11 +7,12 @@
 
 #PDA#define('DIRECTORY_SEPARATOR' , '/');
 #PDA#ini_set("include_path", ".:/usr/local/lib/php:/home/www/htdocs:/home/www/configs");
+ini_set("include_path", ".:/usr/local/lib/php:/var/www/Smarty");
 
 /* Create and Initialise the smarty object */
-require("Smarty/Smarty.class.php");
+require("Smarty.class.php");
 $smarty = new Smarty;
-$base = '/home/peter/www/jobapplications-dev/';
+$base = '/var/www/';
 #PDA#$base = '/home/www/';
 $smarty->template_dir = $base . 'templates/';
 $smarty->compile_dir = $base . 'templates_c/';

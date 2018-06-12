@@ -1,0 +1,4 @@
+[submodule "stable/smarty"]
+	path = stable/smarty
+	url = https://github.com/smarty-php/smarty.git
+	branch = Smarty2
