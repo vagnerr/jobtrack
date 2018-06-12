@@ -22,7 +22,7 @@ $smarty->assign('PageTitle', "Jobs By Source");
 $template = 'sourcedetail.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $count_clause, $main_clause);
+process_job_list($dbh, $smarty, $pager_size, $count_clause, $main_clause);
 
 $query = "SELECT Description FROM SOURCE_CONST WHERE ID = " . $source_ID;
 $result = $dbh->execute($query);

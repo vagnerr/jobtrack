@@ -22,7 +22,7 @@ $smarty->assign('PageTitle', "Jobs By Keyword");
 $template = 'keyworddetail.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $count_clause, $main_clause, $extra_tables);
+process_job_list($dbh, $smarty, $pager_size, $count_clause, $main_clause, $extra_tables);
 
 $query = "SELECT Keyword FROM KEYWORD_CONST WHERE ID = " . $keyword_ID;
 $result = $dbh->execute($query);

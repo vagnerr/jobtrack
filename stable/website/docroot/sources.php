@@ -21,7 +21,7 @@ $query = "SELECT SOURCE_CONST.ID as ID, Description,
 	  WHERE SOURCE_CONST.ID > 0 AND JOB.Source_ID = SOURCE_CONST.ID
 	  GROUP BY JOB.Source_ID
 	  ORDER BY Description";
-buildLoopByQuery(&$dbh,&$smarty,'SourceList',$query);
+buildLoopByQuery($dbh,$smarty,'SourceList',$query);
 
 
 

@@ -128,7 +128,7 @@ function buildLoopByTable($dbh, $smarty, $varname, $table, $order="",$desc=0){
 			$query .= " DESC";
 		}
 	}
-	buildLoopByQuery(&$dbh, &$smarty, $varname, $query);
+	buildLoopByQuery($dbh, $smarty, $varname, $query);
 
 }
 

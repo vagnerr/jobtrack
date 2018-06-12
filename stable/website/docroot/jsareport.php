@@ -37,7 +37,7 @@ $pager_size=0;
 	$template = 'jsareport.tpl';
 
 
-$joblist = process_job_list(&$dbh, &$smarty, $pager_size, $Cactive_only,
+$joblist = process_job_list($dbh, $smarty, $pager_size, $Cactive_only,
 			 $active_only, "", $order_by);
 
 $count = 0;

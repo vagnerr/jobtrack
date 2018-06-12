@@ -83,13 +83,13 @@ $dbh->disconnect();
 
 function presentForm($dbh,$smarty){
 	// submit not pressed so display the form
-	buildLoopByTable(&$dbh, &$smarty, "StatusList", "STATUS_CONST");
-	buildLoopByTable(&$dbh, &$smarty, "NextActionList", "NEXTACTION_CONST");
-	buildLoopByTable(&$dbh, &$smarty, "TypeList", "TYPE_CONST");
-	buildLoopByTable(&$dbh, &$smarty, "SourceList", "SOURCE_CONST",
+	buildLoopByTable($dbh, $smarty, "StatusList", "STATUS_CONST");
+	buildLoopByTable($dbh, $smarty, "NextActionList", "NEXTACTION_CONST");
+	buildLoopByTable($dbh, $smarty, "TypeList", "TYPE_CONST");
+	buildLoopByTable($dbh, $smarty, "SourceList", "SOURCE_CONST",
 							"Description");
-	buildLoopByTable(&$dbh, &$smarty, "AgencyList", "AGENCY", "Name");
-	buildLoopByTable(&$dbh, &$smarty, "LocationList", "LOCATION_CONST",
+	buildLoopByTable($dbh, $smarty, "AgencyList", "AGENCY", "Name");
+	buildLoopByTable($dbh, $smarty, "LocationList", "LOCATION_CONST",
 							"Value");
 	//$checkvar = $smarty->get_template_vars();
 	//echo "<pre>" . var_dump($checkvar) ."</pre>";

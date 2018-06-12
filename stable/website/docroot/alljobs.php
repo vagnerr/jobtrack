@@ -19,7 +19,7 @@ $dbh->connect($db);
 	$template = 'alljobs.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $Cactive_only, $active_only);
+process_job_list($dbh, $smarty, $pager_size, $Cactive_only, $active_only);
 $dbh->disconnect();
 $smarty->display("skin:".$template);
 

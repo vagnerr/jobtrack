@@ -36,7 +36,7 @@ function smarty_resource_skin_getfilename($tpl_name, &$smarty){
 function smarty_resource_skin_source($tpl_name, &$tpl_source, &$smarty)
 {
     // attempt to load template file
-    if ($filename = smarty_resource_skin_getfilename($tpl_name, &$smarty)){
+    if ($filename = smarty_resource_skin_getfilename($tpl_name, $smarty)){
 	$fd = fopen ($filename, "r");
 	$tpl_source = fread ($fd, filesize ($filename));
 	fclose ($fd);
@@ -49,7 +49,7 @@ function smarty_resource_skin_source($tpl_name, &$tpl_source, &$smarty)
 function smarty_resource_skin_timestamp($tpl_name, &$tpl_timestamp, &$smarty)
 {
     // get timestamp of template file
-    if ($filename = smarty_resource_skin_getfilename($tpl_name, &$smarty)) {
+    if ($filename = smarty_resource_skin_getfilename($tpl_name, $smarty)) {
     	$tpl_timestamp = time($filename);
         return true;
     } else {

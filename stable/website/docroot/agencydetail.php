@@ -39,8 +39,8 @@ $query = "SELECT AGENCYCONTACT_LNK.ID as ID, Description, Data, Keyword,
 	  WHERE ContactType_ID = CONTACTTYPE_CONST.ID
 	  AND Agency_ID = " . $agency_ID . "
 	  ORDER BY CONTACTTYPE_CONST.ID";
-buildLoopByQuery(&$dbh,&$smarty,'AgencyContactList',$query);
-buildLoopByTable(&$dbh,&$smarty,'ContactTypeList','CONTACTTYPE_CONST');
+buildLoopByQuery($dbh,$smarty,'AgencyContactList',$query);
+buildLoopByTable($dbh,$smarty,'ContactTypeList','CONTACTTYPE_CONST');
 
 $query = "SELECT AGENT.ID as ID, Name from AGENT
           WHERE Agency_ID = " . $agency_ID;

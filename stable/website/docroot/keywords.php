@@ -20,7 +20,7 @@ $query = "SELECT KEYWORD_CONST.ID as ID, Keyword, Count(Job_ID) as JobCount
 	  WHERE KEYWORD_LNK.Keyword_ID = KEYWORD_CONST.ID
 	  GROUP BY ID
 	  ORDER BY Keyword";
-buildLoopByQuery(&$dbh,&$smarty,'KeywordList',$query);
+buildLoopByQuery($dbh,$smarty,'KeywordList',$query);
 
 $dbh->disconnect();
 $smarty->display("skin:".$template);

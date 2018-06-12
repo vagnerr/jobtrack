@@ -22,7 +22,7 @@ $smarty->assign('PageTitle', "Jobs By Location");
 $template = 'locationdetail.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $count_clause, $main_clause);
+process_job_list($dbh, $smarty, $pager_size, $count_clause, $main_clause);
 
 $query = "SELECT Value FROM LOCATION_CONST WHERE ID = " . $location_ID;
 $result = $dbh->execute($query);

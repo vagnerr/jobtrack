@@ -21,7 +21,7 @@ $query = "SELECT LOCATION_CONST.ID as ID, Value,
 	  WHERE LOCATION_CONST.ID > 0 AND JOB.Location_ID = LOCATION_CONST.ID
 	  GROUP BY JOB.Location_ID
 	  ORDER BY Value";
-buildLoopByQuery(&$dbh,&$smarty,'LocationList',$query);
+buildLoopByQuery($dbh,$smarty,'LocationList',$query);
 
 
 

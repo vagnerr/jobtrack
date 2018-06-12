@@ -25,7 +25,7 @@ $smarty->assign('hide_Agency',1);
 $template = 'agentdetail.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $count_clause, $main_clause, $extra_tables);
+process_job_list($dbh, $smarty, $pager_size, $count_clause, $main_clause, $extra_tables);
 
 
 $query = "SELECT Name FROM AGENT WHERE ID = " . $agent_ID;

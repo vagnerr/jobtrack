@@ -155,11 +155,11 @@ $dbh->free_result($result);
 $smarty->assign('JobRelatedList', $related);
 
 
-buildLoopByTable(&$dbh, &$smarty, "StatusList", "STATUS_CONST");
-buildLoopByTable(&$dbh, &$smarty, "NextActionList", "NEXTACTION_CONST");
-buildLoopByTable(&$dbh, &$smarty, "TypeList", "TYPE_CONST");
-buildLoopByTable(&$dbh, &$smarty, "SourceList", "SOURCE_CONST");
-buildLoopByQuery(&$dbh, &$smarty, "LocationList", "SELECT * FROM LOCATION_CONST ORDER BY Value");
+buildLoopByTable($dbh, $smarty, "StatusList", "STATUS_CONST");
+buildLoopByTable($dbh, $smarty, "NextActionList", "NEXTACTION_CONST");
+buildLoopByTable($dbh, $smarty, "TypeList", "TYPE_CONST");
+buildLoopByTable($dbh, $smarty, "SourceList", "SOURCE_CONST");
+buildLoopByQuery($dbh, $smarty, "LocationList", "SELECT * FROM LOCATION_CONST ORDER BY Value");
 
 
 $dbh->disconnect();

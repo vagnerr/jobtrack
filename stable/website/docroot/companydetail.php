@@ -23,7 +23,7 @@ $smarty->assign('hide_Company',1);
 $template = 'companydetail.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $count_clause, $main_clause);
+process_job_list($dbh, $smarty, $pager_size, $count_clause, $main_clause);
 
 
 $query = "SELECT Name FROM COMPANY WHERE ID = " . $company_ID;
@@ -39,8 +39,8 @@ $query = "SELECT COMPANYCONTACT_LNK.ID as ID, Description, Data, Keyword,
 	  WHERE ContactType_ID = CONTACTTYPE_CONST.ID
 	  AND Company_ID = " . $company_ID . "
 	  ORDER BY CONTACTTYPE_CONST.ID";
-buildLoopByQuery(&$dbh,&$smarty,'CompanyContactList',$query);
-buildLoopByTable(&$dbh,&$smarty,'ContactTypeList','CONTACTTYPE_CONST');
+buildLoopByQuery($dbh,$smarty,'CompanyContactList',$query);
+buildLoopByTable($dbh,$smarty,'ContactTypeList','CONTACTTYPE_CONST');
 
 $dbh->disconnect();
 $smarty->display("skin:".$template);
