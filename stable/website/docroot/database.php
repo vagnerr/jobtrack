@@ -17,7 +17,7 @@ class Database
 		$this->link = mysqli_connect($db{host},$db{username},$db{password})
 							or die("Connect failed");
 		mysqli_select_db($this->link, $db{database})
-							or die("Select failed");
+							or die("Select_db failed");
 		$this->connected = 1;
 		return $link;
 	}
