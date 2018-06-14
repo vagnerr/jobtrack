@@ -5,6 +5,7 @@
 
 <script src="libraries/functions.js" type="text/javascript" language="javascript"></script>	
 
+{if $JobList}
 <table border="0">
 <tr>
 	<th>Detail</th>
@@ -49,6 +50,11 @@
 {/strip}
 {/section}
 </table>
+
+{else}
+  <em>--- No Jobs Found ---</em>
+{/if}
+
 <center>
 {if ($start_prev ne "")}
 	(<a href="{$PHP_SELF}?{$ID_FIELD}order={$order}&start={$start_prev}{$decrement}">Previous</a>)

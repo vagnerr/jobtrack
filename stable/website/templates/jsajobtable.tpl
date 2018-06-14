@@ -3,8 +3,9 @@
 <!-- Copyright (C) 2003-  Peter J. Wise <peter_at_bloodaxe.com>
      This code is protected under the Gnu Public License (See LICENSE). -->
 
+{if $JobList}
 
-{section name=jobsec loop=$JobList}
+  {section name=jobsec loop=$JobList}
 	
 	<strong><u>{$JobList[jobsec].JobTitle}</u> 
 	{if $JobList[jobsec].Reference}
@@ -20,7 +21,7 @@
 	{if $JobList[jobsec].DateToCheck ne "0/0/0000"}
 		<strong>Next Check:</strong>{$JobList[jobsec].DateToCheck} ({$JobList[jobsec].NextAction}) 
 	{/if}
-<br />
+  <br />
 	{if $JobList[jobsec].Company}
 		<strong>Company:</strong>{$JobList[jobsec].Company}&nbsp;&nbsp;&nbsp;&nbsp;
 	{/if}
@@ -37,4 +38,8 @@
 	
 	{include file="skin:jsanotestable.tpl" JobNotesList=$JobList[jobsec].JobNotesList}
 	<hr />
-{/section}
+  {/section}
+{else}
+  <em> --- No Data Found --- </em>
+{/if}
+

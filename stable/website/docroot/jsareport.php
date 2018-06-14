@@ -41,7 +41,8 @@ $joblist = process_job_list($dbh, $smarty, $pager_size, $Cactive_only,
 			 $active_only, "", $order_by);
 
 $count = 0;
-foreach ($joblist as $job){
+if(is_array($joblist)){
+  foreach ($joblist as $job){
 	$query = "SELECT date_format(AddDate,'%e/%c/%Y') as AddDate,
 		  Data,
 		  AGENT.Name as AgentName,
@@ -57,7 +58,8 @@ foreach ($joblist as $job){
 	$dbh->free_result($result);
 	$joblist[$count++]{JobNotesList} = $notes;
 
-}
+  }
+}  
 $smarty->assign('JobList' , $joblist);
 $smarty->assign('StartDate' , $lastdaterev);
 $today = getdate();

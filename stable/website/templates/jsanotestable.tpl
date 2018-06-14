@@ -3,6 +3,7 @@
 <!-- Copyright (C) 2003-  Peter J. Wise <peter_at_bloodaxe.com>
      This code is protected under the Gnu Public License (See LICENSE). -->
 
+{if $JobNotesList}
 <table border = "0">
 {section name=note loop=$JobNotesList}
 
@@ -22,3 +23,7 @@
 
 {/section}
 </table>
+{else}
+  <br/>
+  <em>no notes</em>
+{/if}
