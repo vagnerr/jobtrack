@@ -241,7 +241,7 @@ CREATE TABLE JOBNOTES (
   ID int(11) NOT NULL auto_increment,
   Job_ID int(11) NOT NULL default '0',
   Agent_ID int(11) default NULL,
-  AddDate timestamp(6) NOT NULL,
+  AddDate datetime NOT NULL,
   Data text NOT NULL,
   PRIMARY KEY  (ID)
 ) ENGINE=MyISAM;
