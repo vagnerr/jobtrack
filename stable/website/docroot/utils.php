@@ -138,7 +138,7 @@ function buildLoopByTable($dbh, $smarty, $varname, $table, $order="",$desc=0){
 //ZIGGY VERSION
 function GET($keyword){
 	$returnval = $_GET{$keyword}; //try the get field first
-	if ($returnval){
+	if ($returnval || $returnval =='0'){  // Check for explicit '0' string for post vars. will probably depricate
 		return $returnval;
 	}else{
 		global $$keyword;  //yes this is nasty :-}
