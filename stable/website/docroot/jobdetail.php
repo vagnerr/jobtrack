@@ -53,8 +53,8 @@ $line = $dbh->fetch_assoc($result);
 $dbh->free_result($result);
 
 // wipe the interview date if its blank
-if($line{interview} == "0000-00-00 00:00:00"){
-	$line{interview} = "";
+if($line{DateOfInterview} == "0000-00-00 00:00:00"){
+	$line{DateOfInterview} = "";
 }
 
 
@@ -140,18 +140,27 @@ $jobdata = $dbh->fetch_all_assoc($result);
 $dbh->free_result($result);
 $smarty->assign('JobDataList', $jobdata);
 
+// Thanks for fix empty arrays to..
+//    https://stackoverflow.com/questions/19711491/merge-array-returns-null-if-one-or-more-of-arrays-is-empty
+$related = array();
 $query = "SELECT ID, Child_ID as Related_ID, Description 
 	  FROM JOBRELATED_LNK
 	  WHERE Parent_ID = " . $job_ID;
 $result = $dbh->execute($query);
-$related = $dbh->fetch_all_assoc($result);                     
+$related_c = $dbh->fetch_all_assoc($result);                     
 $dbh->free_result($result);
+if(is_array($related_c)){
+	$related=array_merge($related,$related_c);
+}
 $query = "SELECT ID, Parent_ID as Related_ID, Description
 	  FROM JOBRELATED_LNK
 	  WHERE Child_ID = " . $job_ID;
 $result = $dbh->execute($query);
-$related = array_merge($related , $dbh->fetch_all_assoc($result));
+$related_p = $dbh->fetch_all_assoc($result);                     
 $dbh->free_result($result);
+if(is_array($related_p)){
+	$related=array_merge($related,$related_p);
+}
 $smarty->assign('JobRelatedList', $related);
 
 
