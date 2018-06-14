@@ -16,7 +16,7 @@ $ok = 1;
 // sort our simple inputs
 $ID = GET('ID');
 $DateToCheck = GET(DateToCheck);
-$DateOfInterview = GET(DateOfInterview);
+$DateOfInterview = GET(DateOfInterview) ?: '0000-00-00';
 $NextAction_ID = GET(NextAction_ID);
 $Status_ID = GET(Status_ID);
 $Type_ID = GET(Type_ID);
