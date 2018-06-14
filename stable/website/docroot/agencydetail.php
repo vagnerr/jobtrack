@@ -23,7 +23,7 @@ $smarty->assign('hide_Agency',1);
 $template = 'agencydetail.tpl';
 
 
-process_job_list(&$dbh, &$smarty, $pager_size, $count_clause, $main_clause);
+process_job_list($dbh, $smarty, $pager_size, $count_clause, $main_clause);
 
 
 $query = "SELECT Name FROM AGENCY WHERE ID = " . $agency_ID;
