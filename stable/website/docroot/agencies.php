@@ -24,12 +24,14 @@ $result = $dbh->execute($query);
 $agencies = $dbh->fetch_all_assoc($result);
 $dbh->free_result($result);
 $count=0;
-foreach($agencies as $agency){
+if (is_array($agencies)){
+    foreach($agencies as $agency){
 	$query="SELECT COUNT(*) as agents FROM AGENT WHERE Agency_ID = " . $agency{ID};
 	$result = $dbh->execute($query);
 	$agent = $dbh->fetch_assoc($result);
 	$dbh->free_result($result);
 	$agencies[$count++]{AgentCount} = $agent{agents};
+    }
 }
 $smarty->assign('AgencyList' ,$agencies);
 

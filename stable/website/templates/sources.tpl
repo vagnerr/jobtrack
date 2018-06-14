@@ -6,12 +6,12 @@
 {include file="skin:header.tpl"}
 <h1>{$PageTitle}</h1>
 
-
-<table border="0">
-<tr>
+{if $SourceList}
+  <table border="0">
+  <tr>
 	<th>Name</th><th>Jobs</th>
-</tr>
-{section name=source loop=$SourceList}
+  </tr>
+  {section name=source loop=$SourceList}
 	<tr>
 		<td>
 			<a href="sourcedetail.php?ID={$SourceList[source].ID}">
@@ -22,7 +22,9 @@
 			{$SourceList[source].JobCount}
 		</td>
 	</tr>
-{/section}
-</table>
-
+  {/section}
+  </table>
+{else}
+  <em>--None--</em>
+{/if}
 {include file="skin:footer.tpl"}		

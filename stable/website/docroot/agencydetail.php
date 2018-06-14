@@ -49,7 +49,8 @@ $agents = $dbh->fetch_all_assoc($result);
 $dbh->free_result($result);
 #grab the agents contact details
 $count=0;
-foreach ($agents as $agentline){
+if (is_array($agents)){
+   foreach ($agents as $agentline){
 	$agentID = $agentline{ID};
 	$query = "SELECT CONTACTTYPE_CONST.Description as Description,
 			 CONTACTTYPE_CONST.Keyword as Keyword,
@@ -61,6 +62,7 @@ foreach ($agents as $agentline){
 	$atcontacts = $dbh->fetch_all_assoc($result);
 	$dbh->free_result($result);
 	$agents[$count++]{ContactList}=$atcontacts;
+    }
 }
 $smarty->assign('AgentList', $agents);
 

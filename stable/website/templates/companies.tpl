@@ -7,11 +7,12 @@
 <h1>{$PageTitle}</h1>
 
 
-<table border="0">
-<tr>
+{if $CompanyList}
+  <table border="0">
+  <tr>
 	<th>Name</th><th>Jobs</th>
-</tr>
-{section name=company loop=$CompanyList}
+  </tr>
+  {section name=company loop=$CompanyList}
 	<tr>
 		<td>
 			<a href="companydetail.php?ID={$CompanyList[company].ID}">
@@ -22,7 +23,10 @@
 			{$CompanyList[company].JobCount}
 		</td>
 	</tr>
-{/section}
-</table>
+  {/section}
+  </table>
+{else}
+  <em>--None--</em>
+{/if}
 
 {include file="skin:footer.tpl"}		

@@ -6,12 +6,12 @@
 {include file="skin:header.tpl"}
 <h1>{$PageTitle}</h1>
 
-
-<table border="0">
-<tr>
+{if $KeywordList}
+  <table border="0">
+  <tr>
 	<th>Name</th><th>Jobs</th>
-</tr>
-{section name=keyword loop=$KeywordList}
+  </tr>
+  {section name=keyword loop=$KeywordList}
 	<tr>
 		<td>
 			<a href="keyworddetail.php?ID={$KeywordList[keyword].ID}">
@@ -22,7 +22,9 @@
 			{$KeywordList[keyword].JobCount}
 		</td>
 	</tr>
-{/section}
-</table>
-
+  {/section}
+  </table>
+{else}
+  <em>--None--</em>
+{/if}
 {include file="skin:footer.tpl"}		

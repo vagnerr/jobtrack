@@ -6,12 +6,12 @@
 {include file="skin:header.tpl"}
 <h1>{$PageTitle}</h1>
 
-
-<table border="0">
-<tr>
+{if $LocationList}
+  <table border="0">
+  <tr>
 	<th>Name</th><th>Jobs</th>
-</tr>
-{section name=location loop=$LocationList}
+  </tr>
+  {section name=location loop=$LocationList}
 	<tr>
 		<td>
 			<a href="locationdetail.php?ID={$LocationList[location].ID}">
@@ -22,7 +22,9 @@
 			{$LocationList[location].JobCount}
 		</td>
 	</tr>
-{/section}
-</table>
-
+  {/section}
+  </table>
+{else}
+  <em>--None--</em>
+{/if}
 {include file="skin:footer.tpl"}		

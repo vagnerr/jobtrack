@@ -69,7 +69,8 @@
 </table>
 <h2>Agents</h2>
 <ul>
-{section name=agent loop=$AgentList}
+{if $AgentList}
+  {section name=agent loop=$AgentList}
 	<li><a href="agentdetail.php?ID={$AgentList[agent].ID}">{$AgentList[agent].Name}</a>
 	{section name=agentc loop=$AgentList[agent].ContactList}
 		<br/>{$AgentList[agent].ContactList[agentc].Description} - 
@@ -84,7 +85,10 @@
 			</a>
 		{/if}
 	{/section}
-{/section}
+  {/section}
+{else}
+  <em>--None--</em>
+{/if}
 </ul>  
 <h2>Jobs From This Agency</h2>
 {include file="skin:jobtable.tpl"}
