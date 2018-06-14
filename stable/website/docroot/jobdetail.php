@@ -53,9 +53,9 @@ $line = $dbh->fetch_assoc($result);
 $dbh->free_result($result);
 
 // wipe the interview date if its blank
-if($line{DateOfInterview} == "0000-00-00 00:00:00"){
-	$line{DateOfInterview} = "";
-}
+//if($line{DateOfInterview} == "0000-00-00 00:00:00"){
+//	$line{DateOfInterview} = "";
+//}
 
 
 foreach ($line as $key => $value){

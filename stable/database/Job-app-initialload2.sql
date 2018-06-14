@@ -153,7 +153,7 @@ CREATE TABLE JOB (
   ID int(11) NOT NULL auto_increment,
   DateAdded datetime NOT NULL,
   Reference varchar(100) default NULL,
-  DateLastChanged datetime NOT NULL default '0000-00-00 00:00:00',
+  DateLastChanged datetime NOT NULL,
   DateToCheck date default NULL,
   NextAction_ID int(11) default NULL,
   JobTitle varchar(100) NOT NULL default '',
@@ -241,7 +241,7 @@ CREATE TABLE JOBNOTES (
   ID int(11) NOT NULL auto_increment,
   Job_ID int(11) NOT NULL default '0',
   Agent_ID int(11) default NULL,
-  AddDate timestamp(14) NOT NULL,
+  AddDate timestamp(6) NOT NULL,
   Data text NOT NULL,
   PRIMARY KEY  (ID)
 ) ENGINE=MyISAM;

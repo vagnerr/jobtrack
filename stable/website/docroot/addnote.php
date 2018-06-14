@@ -72,7 +72,7 @@ if($ok){
 	$next_check = GET(NextCheck);
 	if ($next_check == -1){
 		// we dont want a next check (guess we are closing)
-		$next_check = 0;
+		$next_check = "NULL";
 	}else{
 		$next_check = date("Ymd",strtotime("+".$next_check." days"));
 	}

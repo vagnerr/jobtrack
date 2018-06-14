@@ -16,7 +16,9 @@ $ok = 1;
 // sort our simple inputs
 $ID = GET('ID');
 $DateToCheck = GET(DateToCheck);
-$DateOfInterview = GET(DateOfInterview) ?: '0000-00-00';
+  $DateToCheck_SQL = $DateToCheck ? "DateToCheck='$DateToCheck'," : "DateToCheck=NULL,";
+$DateOfInterview = GET(DateOfInterview);
+  $DateOfInterview_SQL = $DateOfInterview ? "DateOfInterview='$DateOfInterview'," : "DateOfInterview=NULL,";
 $NextAction_ID = GET(NextAction_ID);
 $Status_ID = GET(Status_ID);
 $Type_ID = GET(Type_ID);
@@ -81,9 +83,10 @@ if($newrelationID && $newrelationDescription){
 // Now we should have evrything we need, (or tehy are at their
 // default values so no its time to do the update of the job record
 
+	//DateOfInterview='".$DateOfInterview."',
 $query = "UPDATE JOB SET
-	DateToCheck='".$DateToCheck."',
-	DateOfInterview='".$DateOfInterview."',
+	$DateToCheck_SQL
+	$DateOfInterview_SQL
 	NextAction_ID=".$NextAction_ID.",
 	Status_ID=".$Status_ID.",
 	Type_ID=".$Type_ID.",

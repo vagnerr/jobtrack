@@ -30,7 +30,9 @@ if(!$submit || $submit == ""){
 	$DateLastChanged = $DateAdded;
 	$DateToCheck = getDateToCheck(GET(DateToCheck),$DateLastChanged);
 	$NextAction_ID = GET(NextAction_ID);
-	$DateOfInterview = GET(DateOfInterview) ?: '0000-00-00';
+	$DateOfInterview = GET(DateOfInterview);
+	  $DateOfInterview_SQL = $DateOfInterview ? "'$dateOfInterview'" : "NULL";
+
 	$Status_ID = GET(Status_ID);
 	$Type_ID = GET(Type_ID);
 	$Salary = GET(Salary);
@@ -52,7 +54,7 @@ error_log("_GET{SOURCE_ID}='" . $_GET{Source_ID} . "'");
 				  JobTitle,Company_ID,Location_ID,
 				  Reference,Agency_ID)
 		  VALUES($Fake,'$DateAdded','$DateLastChanged',
-                         '$DateToCheck',$NextAction_ID,'$DateOfInterview',
+                         '$DateToCheck',$NextAction_ID,$DateOfInterview_SQL,
                          $Status_ID,$Type_ID,'$Salary',$Source_ID,
                          '$JobTitle',$Company_ID,$Location_ID,
                          '$Reference',$Agency_ID)";
