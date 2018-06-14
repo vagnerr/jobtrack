@@ -7,6 +7,7 @@
 
 <table border="0">
 <tr>
+	<th>Detail</th>
 	{if !$hide_DateAdded}<th><a href="{$PHP_SELF}?{$ID_FIELD}order=DateAdded{$rev_DateAdded}">Date Applied</a></th>{/if}
 	{if !$hide_DateLastChanged}<th><a href="{$PHP_SELF}?{$ID_FIELD}order=DateLastChanged{$rev_DateLastChanged}">Last Checked</a></th>{/if}
 	{if !$hide_DateToCheck}<th><a href="{$PHP_SELF}?{$ID_FIELD}order=DateToCheck{$rev_DateToCheck}">Next Check</a></th>{/if}
@@ -22,6 +23,7 @@
 {section name=jobsec loop=$JobList}
 {strip}
 	<tr bgcolor="{cycle name="c1" values="#aaaaaa,#bbbbbb"}" onmouseover="setPointer(this, {$smarty.section.jobsec.index}, 'over', '{cycle name="c2" values="#aaaaaa,#bbbbbb"}', '#CCFFCC', '#FFCC99');" onmouseout="setPointer(this, {$smarty.section.jobsec.index}, 'out', '{cycle name="c3" values="#aaaaaa,#bbbbbb"}', '#CCFFCC', '#FFCC99');" onmousedown="setPointer(this, {$smarty.section.jobsec.index}, 'click', '{cycle name="c4" values="#aaaaaa,#bbbbbb"}', '#CCFFCC', '#FFCC99'); document.location='jobdetail.php?ID={$JobList[jobsec].ID}'">
+                <td nowrap="nowrap"><a href="jobdetail.php?ID={$JobList[jobsec].ID}">Detail</a></td>
 		{if !$hide_DateAdded}
                   <td nowrap="nowrap">
                     {if $MARK_FAKE && $JobList[jobsec].Fake}
