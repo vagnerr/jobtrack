@@ -30,7 +30,7 @@ if(!$submit || $submit == ""){
 	$DateLastChanged = $DateAdded;
 	$DateToCheck = getDateToCheck(GET(DateToCheck),$DateLastChanged);
 	$NextAction_ID = GET(NextAction_ID);
-	$DateOfInterview = GET(DateOfInterview);
+	$DateOfInterview = GET(DateOfInterview) ?: '0000-00-00';
 	$Status_ID = GET(Status_ID);
 	$Type_ID = GET(Type_ID);
 	$Salary = GET(Salary);
@@ -40,6 +40,9 @@ if(!$submit || $submit == ""){
 	$Location_ID = getLocationID($dbh, GET(Location_ID), GET(NewLocation));
 	$Reference = GET(Reference);
 	$Agency_ID = getAgencyID($dbh, GET(Agency_ID), GET(NewAgency));
+
+error_log("GET(SOURCE_ID)='" . GET(Source_ID) . "'");
+error_log("_GET{SOURCE_ID}='" . $_GET{Source_ID} . "'");
 
 	if($ok){
 		// we have all the values time to fo the insert
