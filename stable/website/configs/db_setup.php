@@ -8,10 +8,10 @@
 global $db;  
   
 $db = array(  
-     "host"              =>     "job-mysql",  
-     "username"          =>     "jobapp_u",  
-     "password"          =>     "jobapp_p",  
-     "database"          =>     "JOBAPPS"  
+     "host"              =>    getenv( "DB_HOST", true ) ?: "job-mysql",
+     "username"          =>    getenv( "DB_USER", true ) ?: "jobapp_u",
+     "password"          =>    getenv( "DB_PASS", true ) ?: "jobapp_p",
+     "database"          =>    getenv( "DB_NAME", true ) ?: "JOBAPPS_MISS"
 );  
 
 
