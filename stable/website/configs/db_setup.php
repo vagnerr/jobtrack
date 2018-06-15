@@ -11,7 +11,7 @@ $db = array(
      "host"              =>    getenv( "DB_HOST", true ) ?: "job-mysql",
      "username"          =>    getenv( "DB_USER", true ) ?: "jobapp_u",
      "password"          =>    getenv( "DB_PASS", true ) ?: "jobapp_p",
-     "database"          =>    getenv( "DB_NAME", true ) ?: "JOBAPPS_MISS"
+     "database"          =>    getenv( "DB_NAME", true ) ?: "JOBAPPS"
 );  
 
 
