@@ -13,8 +13,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON JOBAPPS . * TO 'jobapp_u'@'%';
 FLUSH PRIVILEGES;
 
 
-SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'NO_ZERO_DATE',''));
-SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'NO_ZERO_IN_DATE',''));
+#SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'NO_ZERO_DATE',''));
+#SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'NO_ZERO_IN_DATE',''));
 
 # MySQL dump 8.16
 #
