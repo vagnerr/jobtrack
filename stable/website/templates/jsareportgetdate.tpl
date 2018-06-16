@@ -5,7 +5,7 @@
 
 {include file="skin:header.tpl"}
 <h1>{$PageTitle}</h1>
-<script src="/smarty_datepick/javascripts/datepick.js" language="javascript"></script>
+<script src="smarty_datepick/javascripts/datepick.js" language="javascript"></script>
 <form name="dateform" action="jsareport.php">
 	Enter Date of last signon Session:
 	<input type="text" name="Date">{datepick form="dateform" field="Date"}

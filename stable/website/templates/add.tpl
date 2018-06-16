@@ -5,7 +5,7 @@
 
 {include file="skin:header.tpl"}
 
-<script src="/smarty_datepick/javascripts/datepick.js" language="javascript"></script>
+<script src="smarty_datepick/javascripts/datepick.js" language="javascript"></script>
 <h1>Add New Job</h1>
 
 <form name="add" action="add.php" method="get">

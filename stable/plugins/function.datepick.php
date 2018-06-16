@@ -44,13 +44,13 @@ function smarty_function_datepick($params, &$smarty)
 	if(strstr($field,',')) {
 		// dropdown fields
 		$date_fields = explode(',',$field);
-		echo '<a href="javascript:void(0)" onclick="javascript:datepick3(\''.$theme.'\',document.'.$form.'.'.$date_fields[0].',document.'.$form.'.'.$date_fields[1].',document.'.$form.'.'.$date_fields[2].')"><img src="/smarty_datepick/images/'.$theme.'/cal_icon.gif" width="21" height="22" border="0"></a>';
+		echo '<a href="javascript:void(0)" onclick="javascript:datepick3(\''.$theme.'\',document.'.$form.'.'.$date_fields[0].',document.'.$form.'.'.$date_fields[1].',document.'.$form.'.'.$date_fields[2].')"><img src="smarty_datepick/images/'.$theme.'/cal_icon.gif" width="21" height="22" border="0"></a>';
 	} elseif ( empty($field)) {
 		// dropdown default
-		echo '<a href="javascript:void(0)" onclick="javascript:datepick3(\''.$theme.'\',document.'.$form.'.Date_Year,document.'.$form.'.Date_Month,document.'.$form.'.Date_Day)"><img src="/smarty_datepick/images/'.$theme.'/cal_icon.gif" width="21" height="22" border="0"></a>';		
+		echo '<a href="javascript:void(0)" onclick="javascript:datepick3(\''.$theme.'\',document.'.$form.'.Date_Year,document.'.$form.'.Date_Month,document.'.$form.'.Date_Day)"><img src="smarty_datepick/images/'.$theme.'/cal_icon.gif" width="21" height="22" border="0"></a>';		
 	} else {
 		// text field
-		echo '<a href="javascript:void(0)" onclick="javascript:datepick(\''.$theme.'\',document.'.$form.'.'.$field.')"><img src="/smarty_datepick/images/'.$theme.'/cal_icon.gif" border=0></a>';
+		echo '<a href="javascript:void(0)" onclick="javascript:datepick(\''.$theme.'\',document.'.$form.'.'.$field.')"><img src="smarty_datepick/images/'.$theme.'/cal_icon.gif" border=0></a>';
 	}
 }
 
