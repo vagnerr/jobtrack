@@ -4,6 +4,10 @@
      This code is protected under the Gnu Public License (See LICENSE). -->
 
 {include file="skin:menu.tpl"}	
+
+<br/>
+<em><a href="https://github.com/vagnerr/jobtrack">JobTrack App</a> {$APPLICATION_VERSION} by <a href="https://www.vagnerr.com">P.J.Wise</a></em>
+
 	</body>
 </html>
 		
