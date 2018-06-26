@@ -8,6 +8,7 @@ RUN mkdir /var/www/templates_c && \
     chown www-data:www-data /var/www/cache
 COPY plugins/* /var/www/Smarty/plugins/
 COPY website/docroot /var/www/html
-RUN  chown www-data:www-data /var/www/html/smarty_datepick/templates_c
+RUN mkdir -p /var/www/html/smarty_datepick/templates_c &&\
+    chown www-data:www-data /var/www/html/smarty_datepick/templates_c
 COPY website/configs /var/www/configs
 COPY website/templates /var/www/templates
