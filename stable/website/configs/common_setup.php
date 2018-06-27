@@ -43,6 +43,6 @@ $pager_size = 20;
 $mark_fake = 1;
 $smarty->assign('MARK_FAKE', $mark_fake);
 
-$smarty->assign('APPLICATION_VERSION', 'V1.1.1 2018-06-16');
+$smarty->assign('APPLICATION_VERSION', 'V1.1.2 2018-06-27');
 ?>
 
